@@ -27,13 +27,14 @@
                         {% for product in all_products %}
 
 
-                        <div class="card">
-                            <img class="card-img-top" src="{{product.pic}}" alt="{{product.name}}">
+                        <div class="card prodcard">
+                            <img class="card-img-top imgblock" src="{{product.pic}}" alt="{{product.name}}">
                             <div class="card-body">
-                                <h5 class="card-title">{{product.name}}</h5>
+                                <h5 class="card-title centerp">{{product.name}}</h5>
                                 <p class="card-text"><a href="/product/{{product.id}}" class="btn btn-dark btn-block prodbtn">View Product</a></p>
                             </div>
                         </div>
+
 
                         {% endfor %}
                     </div>
