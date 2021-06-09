@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.conf import settings
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import stripe
 from django.contrib import messages
 import bcrypt
 from time import gmtime, localtime, strftime
