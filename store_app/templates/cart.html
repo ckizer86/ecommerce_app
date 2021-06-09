@@ -30,7 +30,9 @@
             <div class="col-12 main">
                 <h1 class="store-header">Your Cart</h1>
                 <div class="row">
+                    {% if cart_products %}
                     <table class="table">
+
                         <thead>
                             <tr>
                                 <th scope="col">Picture</th>
@@ -40,7 +42,9 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             {% for product in cart_products %}
+
                             <tr>
                                 <th scope="row"><img src="{{product.pic}}" style="width: 100px; height: 100px;"></th>
                                 <td>{{product.name}}</td>
@@ -48,6 +52,7 @@
                                 <td><a class="btn btn-danger" role="button" href="/removecart/{{product.pid}}">Remove</a></td>
                             </tr>
                             {% endfor %}
+
 
                             <tr>
                                 <td></td>
@@ -78,6 +83,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    {% else %}
+                    <div class="col">
+                        <p>Your cart is empty.</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
