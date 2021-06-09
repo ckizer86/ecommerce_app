@@ -55,12 +55,26 @@ h2 {
     width: 100%;
 }
 
-.prodcard {
-    height: 100%;
-}
+.prodcard {}
 
 .prodbtn {
     position: absolute;
     bottom: 3%;
     width: 85%;
+}
+
+.card {
+    display: inline-block;
+    vertical-align: top;
+    flex: 1;
+    min-width: 250px;
+    max-width: 25%;
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.card-body {
+    flex: 0;
 }
