@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    {% include 'headerimports.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 navbartop">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 loginform">
+                <h2>Dashboard</h2>
+                <div class="list-group dashboard">
+                    <a href="/dashboard/recent_orders" class="list-group-item list-group-item-action active">
+                        View Orders
+                    </a>
+                    <a href="/dashboard/account" class="list-group-item list-group-item-action">Account Info</a>
+                    <a href="/favorites" class="list-group-item list-group-item-action">Liked Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

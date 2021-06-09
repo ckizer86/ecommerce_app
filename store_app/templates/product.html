@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    {% include 'headerimports.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 navbartop">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <div class="row">
+            {% include 'siteviewsidebar.html' %}
+            <div class="col-9 main">
+                <h1 class="store-header">{{product.name}}</h1>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="prodimage">
+                            <img src="{{product.pic}}">
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <dl class="row">
+                            <dt class="col-sm-3">Description</dt>
+                            <dd class="col-sm-9">
+                                <p>{{product.desc}}</p>
+                            </dd>
+                            <dt class="col-sm-3">Category</dt>
+                            <dd class="col-sm-9">
+                                {% for category in product.categories.all %}
+                                <p>{{category.name}}</p>
+                                {% endfor %}
+                            </dd>
+
+                            <dt class="col-sm-3">Stock</dt>
+                            <dd class="col-sm-9">
+                                <p>{{product.stock}}</p>
+                            </dd>
+
+
+                            <dd class="col-sm-9">
+                                {% if product.stock == 0 %}
+                                <p>Currently out of stock</p>
+                                {% else %}
+                                <form action="/add_cart" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-2">
+                                            <label for="quantity">Quantity</label>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <select name="quantity" id="quantity" class="form-control">
+
+                                                {% with ''|center:product.stock as range %}
+                                                {% for _ in range %}
+
+                                                <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                {% endfor %}
+                                                {% endwith %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="amount">Amount</label>
+                                            <input type="hidden" name="amount" value="{{product.amount}}"> {{product.amount|floatformat:2}}
+                                            <input type="hidden" name="pid" value="{{product.id}}">
+                                        </div>
+                                        <div class="form-group col-md-2">
+
+                                            <button class="btn btn-primary" type="submit">Add</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% endif %}
+                                <p>Likes: {{product.likes.count}}</p>
+
+                                {% if likes %}
+                                <form action="/unlikeitem" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary" type="submit">UnLike</button>
+                                    <input type="hidden" name="postid" value="{{product.id}}">
+                                </form>
+                                {% else %}
+                                <form action="/likeitem" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary" type="submit">Like</button>
+                                    <input type="hidden" name="postid" value="{{product.id}}">
+                                </form>
+                                {% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

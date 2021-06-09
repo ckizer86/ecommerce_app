@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    {% include 'headerimports.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 navbartop">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <div class="row">
+            {% include 'siteviewsidebar.html' %}
+            <div class="col-9 main">
+                {% for store in all_stores %}
+                <h1 class="store-header">{{store.name}}</h1>
+                {% endfor %}
+                <div class="row">
+                    {% for product in all_products %}
+                    <div class="col-4 card-space">
+                        <div class="card prodcard" style="width: 16rem;">
+                            <img class="card-img-top imgblock" src="{{product.pic}}" alt="{{product.name}}">
+                            <div class="card-body">
+                                <p class="card-text centerp">{{product.name}}</p>
+                                <a href="/product/{{product.id}}" class="btn btn-dark btn-block prodbtn">View Product</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

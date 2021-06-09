@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    {% include 'headerimports.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 navbartop">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <div class="row">
+            {% include 'regdashboard.html' %}
+            <div class="col-9 main">
+                <h1 class="store-header">Your Orders</h1>
+                <div class="list-group dashboard">
+                    {% for order in userorders %}
+                    <a href="/dashboard/order/{{order.id}}" class="list-group-item list-group-item-action">Order Number: {{order.id}}</a> {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

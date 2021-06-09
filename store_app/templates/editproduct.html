@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    {% include 'headerimports.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 navbartop">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2 sidebar">
+                {% include 'adminsidebar.html' %}
+            </div>
+            <div class="col-9 main">
+                <h1 class="store-header">{{product.name}}</h1>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="prodimage">
+                            <img src="{{product.pic}}">
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <form action="/edittingprod" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-10">
+                                    <dl class="row">
+                                        <dt class="col-sm-3">Product Name</dt>
+                                        <dd class="col-sm-9">
+                                            <input type="text" name="name" class="form-control" value="{{product.name}}"></dd>
+                                    </dl>
+                                    <dl class="row">
+                                        <dt class="col-sm-3">Product Image</dt>
+                                        <dd class="col-sm-9">
+                                            <input name="pic" type="text" class="form-control" id="image" name="image" value="{{product.pic}}">
+                                        </dd>
+                                    </dl>
+                                    <dl class="row">
+                                        <dt class="col-sm-3">Description</dt>
+                                        <dd class="col-sm-9">
+                                            <textarea name="desc" class="form-control">{{product.desc}}</textarea>
+                                        </dd>
+
+                                        <dt class="col-sm-3">Category</dt>
+                                        <dd class="col-sm-9">
+
+
+                                            {% for currentcat in currentcats %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="categories" type="checkbox" value="{{currentcat.id}}" id="defaultCheck1" checked>
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    {{currentcat.name}}
+                                                </label>
+                                            </div>
+                                            {% endfor %} {% for newcat in excats %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="categories" type="checkbox" value="{{newcat.id}}" id="defaultCheck1">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    {{newcat.name}}
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+
+
+                                        </dd>
+
+                                        <dt class="col-sm-3">Stock</dt>
+                                        <dd class="col-sm-9">
+                                            <input name="stock" class="form-control" type="text" value="{{product.stock}}">
+                                        </dd>
+
+
+                                        <dt class="col-sm-3">Amount</dt>
+                                        <dd class="col-sm-9">
+                                            <input name="amt" type="text" class="form-control" value="{{product.amount|floatformat:2}}">
+                                            <input type="hidden" name="pid" value="{{product.id}}">
+                                        </dd>
+                                        <div class="form-group col-md-2">
+                                            <button class="btn btn-primary" type="submit">Edit Product</button>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                        </form>
+                        <form action="/addcat" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-10">
+                                    <dl class="row">
+                                        <dt class="col-sm-3"><label for="category" id="category">Add Category</label></dt>
+                                        <dd class="col-sm-9">
+                                            <input type="text" class="form-control" name="name" id="category">
+                                        </dd>
+                                        <div class="form-group col-md-2">
+                                            <button class="btn btn-primary" type="submit">Create Category</button>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

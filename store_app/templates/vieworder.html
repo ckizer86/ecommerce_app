@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Project</title>
+    {% include 'headerimports.html' %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 navbartop">
+                {% include 'navbar.html' %}
+            </div>
+        </div>
+        <div class="row">
+            {% include 'regdashboard.html' %}
+            <div class="col-9 main">
+                <h1 class="store-header">Order ID: {{order.id}}</h1>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <tr>
+                                <td>
+                                    {% for value in productlist.values %} {%for item in value %}
+                                    <div>{{item}}</div>
+                                    {% endfor %} {% endfor %}
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td>
+                                    <div>
+                                        <p>Subtotal: {{order.subtotal|floatformat:2}}</p>
+                                    </div>
+                                    <div>
+                                        <p>Tax: {{order.tax|floatformat:2}}</p>
+                                    </div>
+                                    <div>
+                                        <p>Shipping: {{order.shipping|floatformat:2}}</p>
+                                    </div>
+                                    <div>
+                                        <p>Total: {{order.total|floatformat:2}}</p>
+                                    </div>
+                                    <div>
+                                        <p>Ordered: {{order.created_at}}</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>{{order.user.first_name}} {{order.user.last_name}}</p>
+                                    <p>{{order.user.email}}</p>
+                                    <p>{{order.user.address_1}}</p>
+                                    <p>{{order.user.address_2}}</p>
+                                    <p>{{order.user.city}}, {{order.user.state}} {{order.user.zip}}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="#" role="button" class="btn btn-primary">Track Order</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
