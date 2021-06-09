@@ -23,17 +23,20 @@
                 <h1 class="store-header">{{store.name}}</h1>
                 {% endfor %}
                 <div class="row">
-                    {% for product in all_products %}
-                    <div class="col-4 card-space">
-                        <div class="card prodcard" style="width: 16rem;">
-                            <img class="card-img-top imgblock" src="{{product.pic}}" alt="{{product.name}}">
+                    <div class="card-group">
+                        {% for product in all_products %}
+
+
+                        <div class="card">
+                            <img class="card-img-top" src="{{product.pic}}" alt="{{product.name}}">
                             <div class="card-body">
-                                <p class="card-text centerp">{{product.name}}</p>
-                                <a href="/product/{{product.id}}" class="btn btn-dark btn-block prodbtn">View Product</a>
+                                <h5 class="card-title">{{product.name}}</h5>
+                                <p class="card-text"><a href="/product/{{product.id}}" class="btn btn-dark btn-block prodbtn">View Product</a></p>
                             </div>
                         </div>
+
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
