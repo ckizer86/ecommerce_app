@@ -103,8 +103,10 @@ def index(request):
 def login_page(request):
     if "user_id" in request.session:
         return redirect ('/dashboard')
-
-    return render(request, "login.html")
+    context = {
+        "all_categories": Category.objects.all(),
+    }
+    return render(request, "login.html", context)
 
 def login(request):
     if request.method == "POST":
@@ -120,6 +122,7 @@ def login(request):
         if bcrypt.checkpw(request.POST['pw'].encode(), logged_user.password.encode()):
             request.session["user_id"] = logged_user.id
             request.session["username"] = f"{logged_user.first_name} {logged_user.last_name}"
+            request.session["level"] = logged_user.level
             return redirect('/dashboard')
         else:
             messages.error(request, "Invalid password")
@@ -130,8 +133,13 @@ def login(request):
     return redirect('/login')
 
 def register_page(request):
+    if "user_id" in request.session:
+        return redirect ('/dashboard')
+    context = {
+        "all_categories": Category.objects.all(),
+    }
 
-    return render(request, "register.html")
+    return render(request, "register.html", context)
 
 def register(request):
     if request.method == "POST":
@@ -154,6 +162,7 @@ def register(request):
         user = User.objects.create(first_name=first_name, last_name=last_name, email=email, password=password, dob=dob, address_1=address_1, address_2=address_2, city=city, state=state, zip=zip)
         request.session["user_id"] = user.id
         request.session["username"] = f"{user.first_name} {user.last_name}"
+        request.session['level'] = user.level
         return redirect('/dashboard')
 
     return redirect('/register')
@@ -325,10 +334,12 @@ def dashboard(request):
     if user.level == 3:
 
         return redirect('/admin')
-    if "user_id" not in request.session:
-        return redirect ('/login')
 
-    return render(request, "dashboard.html")
+    context = {
+        "all_categories": Category.objects.all(),
+    }
+
+    return render(request, "dashboard.html", context)
 
 def accountinfo(request):
     if "user_id" not in request.session:
@@ -342,6 +353,7 @@ def accountinfo(request):
         "user": user,
         "month": month,
         "day": day,
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "accountinfo.html", context)
@@ -386,6 +398,7 @@ def recentorders(request):
     userorders = user.userorders.all()
     context={
         "userorders": userorders,
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "recentorders.html", context)
@@ -435,6 +448,7 @@ def vieworder(request, id):
             context = {
                 "order":order,
                 "productlist": product_dict,
+                "all_categories": Category.objects.all(),
             }
             return render(request, "vieworder.html", context)
 
@@ -448,8 +462,11 @@ def admindash(request):
     if user.level != 3:
 
         return redirect('/dashboard')
+    context = {
+        "all_categories": Category.objects.all(),
+    }
 
-    return render(request, "admindashboard.html")
+    return render(request, "admindashboard.html", context)
 
 def adminneworders(request):
     if "user_id" not in request.session:
@@ -461,6 +478,7 @@ def adminneworders(request):
         return redirect('/dashboard')
     context ={
         "orders":Order.objects.all(),
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "adminneworders.html", context)
@@ -475,6 +493,7 @@ def adminpastorders(request):
         return redirect('/dashboard')
     context ={
         "orders":Order.objects.all(),
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "adminpastorders.html", context)
@@ -492,6 +511,7 @@ def adminvieworder(request, id):
     context = {
         "order": order,
         "productlist": product_dict,
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "adminvieworder.html", context)
@@ -588,6 +608,7 @@ def editprod(request, id):
         "product": product,
         "excats": Category.objects.exclude(product=id),
         "currentcats": thesecats,
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "editproduct.html", context)
@@ -633,7 +654,9 @@ def storeinfo(request):
         return redirect('/dashboard')
 
     context = {
-        "store": Store.objects.all()
+        "store": Store.objects.all(),
+
+        "all_categories": Category.objects.all(),
     }
 
     return render(request, "store.html", context)

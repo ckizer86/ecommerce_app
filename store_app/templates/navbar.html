@@ -15,13 +15,29 @@
                     <a class="dropdown-item" href="/cat/{{category.id}}">{{category.name}}</a> {% endfor %}
 
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
+            </li>{% if request.session.user_id %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dashboard</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if request.session.level == 3 %}
+                    <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                    <a class="dropdown-item" href="/admin/neworders">New Orders</a>
+                    <a class="dropdown-item" href="/admin/products">Products</a>
+                    <a class="dropdown-item" href="/admin/add_product">Add Products</a>
+                    <a class="dropdown-item" href="/dashboard/account">Edit Account</a>
+                    <a class="dropdown-item" href="/admin/store">Edit Store</a>
+                    <a class="dropdown-item" href="/admin/pastorders">Past Orders</a>
+                    <a class="dropdown-item" href="/favorites">Favorites</a> {% else %}
+                    <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                    <a class="dropdown-item" href="/dashboard/recent_orders">View Orders</a>
+                    <a class="dropdown-item" href="/dashboard/account">Account Info</a>
+                    <a class="dropdown-item" href="/favorites">Favorites</a> {% endif %}
+
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/cart">Cart</a>
-            </li>
+            </li>{% endif %}
 
         </ul>
         {% if request.session.user_id %}Hello, {{request.session.username}} &nbsp; <a class="btn btn-primary" href="/logout" role="button">Logout</a>{% else %}<a class="btn btn-primary" href="/register" role="button">Register</a>&nbsp;<a class="btn btn-primary"

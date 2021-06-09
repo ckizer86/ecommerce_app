@@ -17,10 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2 sidebar">
-                {% include 'adminsidebar.html' %}
-            </div>
-            <div class="col-9 main">
+            <div class="col-12 main">
                 <h1 class="store-header">Past Orders</h1>
                 <div class="list-group dashboard">
                     {% for order in orders reversed %} {% if order.tracking != "" %}
