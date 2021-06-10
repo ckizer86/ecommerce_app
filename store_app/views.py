@@ -366,34 +366,76 @@ def accountinfo(request):
     return render(request, "accountinfo.html", context)
 
 def accountupdate(request):
+    if "user_id" not in request.session:
+        return redirect ('/login')
+    
+    userid = request.session["user_id"]
+    user = User.objects.get(id=userid)
+    print("it put the user in session")
     if request.method == "POST":
+        errors = User.objects.editaccount(request.POST)
+        if errors:
+            for error in errors.values():
+                messages.error(request,error)
+            return redirect('/dashboard/account')
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
-        email = request.POST['email']
-        password = bcrypt.hashpw(request.POST["new_pw"].encode(), bcrypt.gensalt()).decode()
-        dob = request.POST['dob']
-        address1 = request.POST['address1']
-        address2 = request.POST['address2']
-        city = request.POST['city']
-        state = request.POST['state']
-        zip = request.POST['zip']
-
-        userid = request.session["user_id"]
-        user = User.objects.get(id=userid)
-
-        user.first_name = first_name
-        user.last_name = last_name
-        user.email = email
-        user.password = password
-        user.dob = dob
-        user.address_1 = address1
-        user.address_2 = address2
-        user.city = city
-        user.state = state
-        user.zip = zip
-        user.save()
+        if request.POST['new_pw'] == "":
+            if errors:
+                print("it entered into the error loop")
+            for error in errors.values():
+                messages.error(request,error)
+                return redirect('/dashboard/account')
+            dob = request.POST['dob']
+            address1 = request.POST['address1']
+            address2 = request.POST['address2']
+            city = request.POST['city']
+            state = request.POST['state']
+            zip = request.POST['zip']
+            user.first_name = first_name
+            user.last_name = last_name
+            user.dob = dob
+            user.address_1 = address1
+            user.address_2 = address2
+            user.city = city
+            user.state = state
+            user.zip = zip
+            user.save()
+            request.session["username"] = f"{user.first_name} {user.last_name}"
+            return redirect('/dashboard/account')
+        if request.POST['new_pw'] != "":
+            if errors:
+                for error in errors.values():
+                    messages.error(request,error)
+                    return redirect('/dashboard/account')
+            if bcrypt.checkpw(request.POST['pw'].encode(), user.password.encode()):
+                if request.POST['new_pw'] == request.POST['confirm_pw']:
+                    new_pw = bcrypt.hashpw(request.POST["new_pw"].encode(), bcrypt.gensalt()).decode()
+                    dob = request.POST['dob']
+                    address1 = request.POST['address1']
+                    address2 = request.POST['address2']
+                    city = request.POST['city']
+                    state = request.POST['state']
+                    zip = request.POST['zip']
+                    user.first_name = first_name
+                    user.last_name = last_name
+                    user.dob = dob
+                    user.address_1 = address1
+                    user.address_2 = address2
+                    user.city = city
+                    user.state = state
+                    user.zip = zip
+                    user.password = new_pw
+                    user.save()
+                    request.session["username"] = f"{user.first_name} {user.last_name}"
+                    return redirect('/dashboard/account')
+                else:
+                    messages.error(request, "New password and confirm password do not match")
+                return redirect('/dashboard/account')
+            else:
+                messages.error(request, "Invalid current password")
+            return redirect('/dashboard/account')
         return redirect('/dashboard/account')
-
     return redirect('/')
 
 def recentorders(request):
