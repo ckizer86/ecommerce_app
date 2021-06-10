@@ -44,4 +44,5 @@ urlpatterns = [
     path('logout', views.logout),
     path('addcat', views.addcat),
     path('edittingprod', views.edittingprod),
+    path('partial/<int:id>', views.partial),
 ]

@@ -49,16 +49,9 @@
                                 <dt class="col-sm-3">Category</dt>
                                 <dd class="col-sm-9">
 
-
-                                    {% for category in all_categories %}
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="categories" type="checkbox" value="{{category.id}}" id="defaultCheck1">
-                                        <label class="form-check-label" for="defaultCheck1">
-                                            {{category.name}}
-                                        </label>
+                                    <div class="testingajax">
+                                        {% for category in all_categories %} {% include 'partial.html' %} {% endfor %}
                                     </div>
-                                    {% endfor %}
-
 
                                 </dd>
 
@@ -80,7 +73,7 @@
                     </div>
                 </form>
 
-                <form action="/addcat" method="post">
+                <form id="catform" action="/addcat" method="post">
                     {% csrf_token %}
                     <div class="row">
 
@@ -101,6 +94,7 @@
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </body>
 

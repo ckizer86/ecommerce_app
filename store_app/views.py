@@ -210,10 +210,18 @@ def addcat(request):
                 messages.error(request,error)
             return redirect('/admin/add_product')
         name = request.POST['name']
-        Category.objects.create(name=name)
-        return redirect('/admin/add_product')
+        newcat = Category.objects.create(name=name)
+        return redirect(f'/partial/{newcat.id}')
 
     return redirect('/admin')
+
+def partial(request,id):
+    context = {
+        "category": Category.objects.get(id=id)
+    }
+    return render(request,"partial.html", context)
+
+
 
 def addcart(request):
     if "user_id" not in request.session:

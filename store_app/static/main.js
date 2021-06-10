@@ -25,3 +25,26 @@ fetch("/config/")
                 });
         });
     });
+
+$(document).ready(function() {
+
+
+    $('#catform').submit(function(e) {
+        e.preventDefault();
+        console.log(e)
+        console.log(this)
+
+
+        $.ajax({
+            url: '/addcat',
+            method: 'post',
+            data: $(this).serialize(),
+            success: function(serverResponse) {
+                console.log("this is ajax working");
+                console.log(serverResponse);
+                $('.testingajax').append(serverResponse);
+            }
+        })
+        $(this).trigger('reset');
+    })
+})
