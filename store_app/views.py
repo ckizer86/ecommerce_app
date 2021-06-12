@@ -204,7 +204,7 @@ def addcat(request):
     if user.level != 3:
         return redirect('/dashboard')
     if request.method == "POST":
-        errors = User.objects.catvalidation(request.POST)
+        errors = Category.objects.catvalidation(request.POST)
         if errors:
             for error in errors.values():
                 messages.error(request,error)
@@ -215,12 +215,39 @@ def addcat(request):
 
     return redirect('/admin')
 
+def editprodaddcat(request):
+    if "user_id" not in request.session:
+        return redirect ('/login')
+    userid = request.session["user_id"]
+    user = User.objects.get(id=userid)
+    if user.level != 3:
+        return redirect('/dashboard')
+    if request.method == "POST":
+        errors = Category.objects.catvalidation(request.POST)
+        if errors:
+            for error in errors.values():
+                messages.error(request,error)
+            return redirect('/partialalert')
+        name = request.POST['name']
+        newcat = Category.objects.create(name=name)
+        return redirect(f'/partial/{newcat.id}')
+
+    return redirect('/admin')    
+
 def partial(request,id):
+    
     context = {
-        "category": Category.objects.get(id=id)
+        "category": Category.objects.get(id=id),
     }
     return render(request,"partial.html", context)
 
+def partialalert(request):
+    
+    return render(request,"partialalert.html")
+
+def errorcat(request):
+
+    return render(request, 'errorcat.html')
 
 
 def addcart(request):
@@ -664,6 +691,14 @@ def editprod(request, id):
 
 def edittingprod(request):
     if request.method == "POST":
+        id = request.POST['pid']
+        errors = Product.objects.editproduct(request.POST)
+        if errors:
+            for error in errors.values():
+                messages.error(request,error)
+            return redirect('/admin/product/edit/{id}')
+        
+        
         name = request.POST['name']
         desc = request.POST['desc']
         amount = request.POST['amt']

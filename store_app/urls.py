@@ -45,4 +45,6 @@ urlpatterns = [
     path('addcat', views.addcat),
     path('edittingprod', views.edittingprod),
     path('partial/<int:id>', views.partial),
+    path('editprodaddcat', views.editprodaddcat),
+    path('partialalert', views.partialalert),
 ]

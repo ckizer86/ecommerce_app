@@ -19,6 +19,11 @@
         <div class="row">
             <div class="col-12 main">
                 <h1 class="store-header">{{product.name}}</h1>
+                {% if messages %}
+                <div class="alertmsg">
+                    {% include 'partialalert.html' %}
+                </div>
+                {% endif %}
                 <div class="row">
                     <div class="col-6">
                         <div class="prodimage">
@@ -50,23 +55,9 @@
                                         <dt class="col-sm-3">Category</dt>
                                         <dd class="col-sm-9">
 
-
-                                            {% for currentcat in currentcats %}
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="categories" type="checkbox" value="{{currentcat.id}}" id="defaultCheck1" checked>
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                    {{currentcat.name}}
-                                                </label>
+                                            <div class="testingajax">
+                                                {% include 'partialeditcat.html' %}
                                             </div>
-                                            {% endfor %} {% for newcat in excats %}
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="categories" type="checkbox" value="{{newcat.id}}" id="defaultCheck1">
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                    {{newcat.name}}
-                                                </label>
-                                            </div>
-                                            {% endfor %}
-
 
                                         </dd>
 
@@ -88,14 +79,14 @@
                                 </div>
                             </div>
                         </form>
-                        <form action="/addcat" method="post">
+                        <form action="/editprodaddcat" method="post" id="catform">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-10">
                                     <dl class="row">
                                         <dt class="col-sm-3"><label for="category" id="category">Add Category</label></dt>
                                         <dd class="col-sm-9">
-                                            <input type="text" class="form-control" name="name" id="category">
+                                            <input type="hidden" name="pid" value="{{product.id}}"> <input type="text" class="form-control" name="name" id="category">
                                         </dd>
                                         <div class="form-group col-md-2">
                                             <button class="btn btn-primary" type="submit">Create Category</button>
@@ -109,7 +100,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,15 @@
+{% for currentcat in currentcats %}
+<div class="form-check">
+    <input class="form-check-input" name="categories" type="checkbox" value="{{currentcat.id}}" id="defaultCheck1" checked>
+    <label class="form-check-label" for="defaultCheck1">
+                                                    {{currentcat.name}}
+                                                </label>
+</div>
+{% endfor %} {% for newcat in excats %}
+<div class="form-check">
+    <input class="form-check-input" name="categories" type="checkbox" value="{{newcat.id}}" id="defaultCheck1">
+    <label class="form-check-label" for="defaultCheck1">
+                                                    {{newcat.name}}
+                                                </label>
+</div>
+{% endfor %}

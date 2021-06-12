@@ -36,14 +36,18 @@ $(document).ready(function() {
 
 
         $.ajax({
-            url: '/addcat',
+            url: '/editprodaddcat',
             method: 'post',
             data: $(this).serialize(),
             success: function(serverResponse) {
                 console.log("this is ajax working");
-                console.log(serverResponse);
                 $('.testingajax').append(serverResponse);
+
+            },
+            error: function(serverResponse) {
+                $('.alertmsg').append(serverResponse);
             }
+
         })
         $(this).trigger('reset');
     })

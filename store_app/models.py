@@ -123,6 +123,9 @@ class Validators(models.Manager):
         category = postData['name']
         if category == "":
             errors['cat'] = "You can not create an unnamed cateogry"
+        for cat in Category.objects.all():
+            if category == cat.name:
+                errors['catunique'] = "This category already exists."
 
         return errors
 
@@ -138,6 +141,30 @@ class Validators(models.Manager):
         for pname in Product.objects.all():
             if name == pname.name:
                 errors['unique'] = "Product name already exists."
+        if img == "":
+            errors['img'] = "You must enter an image link."
+        if stock == "":
+            errors['stock'] = "You must enter a stock amount."
+        if amount == "":
+            errors['amount'] = "You must enter a price for the product."
+
+        return errors
+
+    def editproduct(self, postData):
+        errors={}
+        pid = postData['pid']
+        currentproduct = Product.objects.get(id=pid)
+        name = postData['name']
+        img = postData['pic']
+        stock = postData['stock']
+        amount = postData['amt']
+
+        if name == "":
+            errors['name'] = "Product name can not be empty."
+        for pname in Product.objects.all():
+            if name != currentproduct.name:
+                if name == pname.name:
+                    errors['unique'] = "Product name already exists."
         if img == "":
             errors['img'] = "You must enter an image link."
         if stock == "":
@@ -188,6 +215,7 @@ class Category(models.Model):
     product = models.ManyToManyField(Product, related_name="categories")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = Validators()
 
 class Order(models.Model):
     product = models.TextField()
