@@ -45,7 +45,7 @@ $(document).ready(function() {
 
             },
             error: function(serverResponse) {
-                $('.alertmsg').append(serverResponse);
+                $('.alert').append(serverResponse);
             }
 
         })
