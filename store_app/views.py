@@ -696,7 +696,7 @@ def edittingprod(request):
         if errors:
             for error in errors.values():
                 messages.error(request,error)
-            return redirect('/admin/product/edit/{id}')
+            return redirect(f'/admin/product/edit/{id}')
         
         
         name = request.POST['name']
